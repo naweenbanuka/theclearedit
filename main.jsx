@@ -1,0 +1,19 @@
+import React,{useEffect,useState} from "react";import{createRoot}from"react-dom/client";import"./styles.css";
+const images=[
+{id:1,category:"Automotive",title:"Motion / FL5",src:"https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1800&q=85"},
+{id:2,category:"Motorsport",title:"Into the Apex",src:"https://images.unsplash.com/photo-1504215680853-026ed2a45def?auto=format&fit=crop&w=1800&q=85"},
+{id:3,category:"Nature",title:"After the Rain",src:"https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1800&q=85"},
+{id:4,category:"Travel",title:"Coastal Roads",src:"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=85"},
+{id:5,category:"Automotive",title:"Night Machine",src:"https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1800&q=85"},
+{id:6,category:"Nature",title:"Quiet Horizon",src:"https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1800&q=85"}];
+const categories=["All","Automotive","Motorsport","Nature","Travel"];
+function App(){const[filter,setFilter]=useState("All"),[selected,setSelected]=useState(null);const visible=filter==="All"?images:images.filter(x=>x.category===filter);
+useEffect(()=>{const k=e=>e.key==="Escape"&&setSelected(null);addEventListener("keydown",k);return()=>removeEventListener("keydown",k)},[]);
+return <div className="site"><header className="nav"><a className="brand" href="#home">THE CLEAR EDIT<span>.</span></a><nav><a href="#work">Work</a><a href="#about">About</a><a href="#contact">Contact</a></nav></header>
+<main><section id="home" className="hero"><div className="hero-image"/><div className="hero-overlay"/><div className="hero-content"><p className="eyebrow">PHOTOGRAPHY / VISUAL STORIES</p><h1>The Clear<br/><em>Edit</em></h1><p className="hero-copy">Frames of motion, places and moments — captured with clarity.</p><a className="button" href="#work">Explore the work <span>↓</span></a></div><div className="hero-meta">MALAYSIA · 2026</div></section>
+<section id="work" className="section work"><div className="section-heading"><div><p className="eyebrow">SELECTED WORK</p><h2>Recent frames</h2></div><p className="section-intro">A visual collection spanning automotive, motorsport, nature and travel.</p></div><div className="filters">{categories.map(c=><button key={c} className={filter===c?"active":""} onClick={()=>setFilter(c)}>{c}</button>)}</div><div className="grid">{visible.map((item,i)=><button className={`card card-${i%3}`} key={item.id} onClick={()=>setSelected(item)}><img src={item.src} alt={item.title} loading="lazy"/><div className="card-info"><span>{item.category}</span><strong>{item.title}</strong></div></button>)}</div></section>
+<section id="about" className="section about"><div className="about-number">01</div><div><p className="eyebrow">ABOUT THE CLEAR EDIT</p><h2>Photography with a sense of place, movement and atmosphere.</h2><p className="about-copy">The Clear Edit is a visual journal built around moments worth remembering — from performance machines and race tracks to quiet landscapes and journeys across Malaysia.</p></div></section>
+<section id="contact" className="contact"><p className="eyebrow">LET'S CREATE</p><h2>Have a story<br/><em>worth capturing?</em></h2><a className="button light" href="mailto:hello@theclearedit.shop">Get in touch <span>↗</span></a></section></main>
+<footer><span>© 2026 THE CLEAR EDIT</span><span>PHOTOGRAPHY · MALAYSIA</span></footer>
+{selected&&<div className="lightbox" onClick={()=>setSelected(null)}><button className="close" onClick={()=>setSelected(null)}>×</button><img src={selected.src} alt={selected.title} onClick={e=>e.stopPropagation()}/><div className="lightbox-caption"><span>{selected.category}</span><strong>{selected.title}</strong></div></div>}</div>}
+createRoot(document.getElementById("root")).render(<App/>);
